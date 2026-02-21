@@ -106,12 +106,7 @@
             <artifactId>jackson-databind</artifactId>
         </dependency>
 
-        <!-- Dotenv for env vars -->
-        <dependency>
-            <groupId>me.paulschwarz</groupId>
-            <artifactId>spring-dotenv</artifactId>
-            <version>4.0.0</version>
-        </dependency>
+        <!-- Dotenv for env vars (Removed due to dependency resolution error) -->
 
         <!-- Spring Boot DevTools for live reloading -->
         <dependency>
