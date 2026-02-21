@@ -1,0 +1,66 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: smart-expense-categorizer
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/expense_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: expense_user
+    password: expense_pass
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: expense-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+# JWT Config
+jwt:
+  secret: "your-super-secret-jwt-key-must-be-at-least-256-bits-long-for-hs256"
+  expiration: 86400000  # 24 hours in ms
+
+# Gemini AI Config
+gemini:
+  api:
+    key: "YOUR_GEMINI_API_KEY_HERE"
+    url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent"
+
+# Kafka Topics
+kafka:
+  topics:
+    expense-upload: expense-upload
+
+# Anomaly Detection
+anomaly:
+  multiplier: 3.0   # flag if expense > 3x average
+
+# OpenAPI / Swagger
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
