@@ -83,23 +83,30 @@ git clone <repo-url>
 cd expense-categorizer
 ```
 
-### 2. Configure your Gemini API Key
-Edit `src/main/resources/application.yml`:
-```yaml
-gemini:
-  api:
-    key: "YOUR_GEMINI_API_KEY_HERE"
+### 2. Configure Environment Variables
+Create a `.env` file in the root of the project with your database credentials and API keys:
+```env
+DB_USERNAME=expense_user
+DB_PASSWORD=expense_pass
+JWT_SECRET=your-256-bit-secret-key-goes-here
+GEMINI_API_KEY=YOUR_GEMINI_API_KEY_HERE
 ```
-
 Get your free key: [Google AI Studio](https://aistudio.google.com)
 
-### 3. Start infrastructure (MySQL + Kafka)
+### 3. Run the complete stack via Docker Compose
+This project is configured with a multi-container Docker Compose setup that runs the Spring Boot app, MySQL database, and Apache Kafka.
+
+To start everything up:
 ```bash
-docker-compose up -d
+docker-compose up -d --build
 ```
 
-### 4. Run the application
+### 4. Run Locally without Dockerizing the App (Hot Reloading)
+If you prefer to run the app outside of Docker while still using containerized MySQL and Kafka, use the `spring-boot:run` command:
 ```bash
+# Export the Java path if needed (e.g., if using Homebrew's openjdk@17)
+export JAVA_HOME=/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home
+
 mvn spring-boot:run
 ```
 
